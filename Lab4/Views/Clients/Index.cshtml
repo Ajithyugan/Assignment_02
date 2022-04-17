@@ -1,0 +1,92 @@
+﻿@model Assignment02NET.Models.ViewModels.BrokerageViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Clients.FirstOrDefault().FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Clients.FirstOrDefault().LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Clients.FirstOrDefault().BirthDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Clients.FirstOrDefault().FullName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Clients) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BirthDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                <a asp-action="Index" asp-route-id="@item.ID">Select</a> |
+                <a asp-action="EditSubscriptions" asp-route-id="@item.ID">Edit Subscriptions</a> |
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+@if (Model.Subscriptions != null)
+{   <br>
+    <h3>
+   Member of the following brokerages
+    </h3>
+    <br>
+       <h4>Brokerage Table </h4>
+    <br>
+    <table class="table">
+        <tr>
+            @if (Model.Subscriptions.Count() > 0)
+            {
+            <th>
+               Name
+            </th>
+            }
+            else
+            {
+                <th> No  subscription record exist</th>
+            }
+        </tr>
+        @foreach (var item in Model.Subscriptions.Select(num => num.Brokerage))
+        {
+            <tr>
+
+                <td>
+                    @item.Title
+                </td>
+                <td>
+                     
+                </td>
+            </tr>
+        }
+    </table>
+}
