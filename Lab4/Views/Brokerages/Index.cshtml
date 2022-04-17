@@ -1,0 +1,94 @@
+﻿@model Assignment02NET.Models.ViewModels.BrokerageViewModel
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Fee
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var Brokerage in Model.Brokerages)
+        {
+            string selectedRow = "";
+            if (Brokerage.ID == (ViewData["BrokerageId"]?.ToString()))
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @Html.DisplayFor(model => Brokerage.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => Brokerage.Fee)
+                </td>
+
+                <td>
+                    <a asp-action="Index" asp-route-id="@Brokerage.ID">Select</a> |
+                 <!--   <a asp-controller="Advertisements" asp-action="Index" asp-route-id="@Brokerage.ID>Ads</a> |-->
+                    <a asp-controller="Advertisements" asp-action="Index" asp-route-id="@Brokerage.ID">Ads</a> |
+                    <a asp-action="Edit" asp-route-id="@Brokerage.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@Brokerage.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@Brokerage.ID">Delete</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@if (Model.Subscriptions != null)
+{   <br>
+    <h3>
+        Subscriptions To The Brokerage
+    </h3>
+    <br>
+       <h4>Client Table :)</h4>
+    <br>
+    <table class="table">
+        <tr>
+            @if (Model.Subscriptions.Count() > 0)
+            {
+            <th>
+                Id of the Client
+            </th>
+            <th>
+                Fullname of the Client
+            </th>
+            }
+            else
+            {
+                <th> No Clients Record Exist In The DataBase</th>
+            }
+        </tr>
+        @foreach (var item in Model.Subscriptions.Select(num => num.Client))
+        {
+            <tr>
+                <td>
+                    @item.ID
+                </td>
+                <td>
+                    @item.FullName
+                </td>
+                <td>
+                     
+                </td>
+            </tr>
+        }
+    </table>
+}

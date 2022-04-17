@@ -1,0 +1,64 @@
+﻿@model Assignment02NET.Models.ViewModels.BrokerageViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>EditSubscriptions</h1>
+
+<h4>Client</h4>
+ 
+    <form asp-action="EditSubscriptions">
+        <table class="row">
+           
+                <tr>
+                    <th>
+                        Full Name 
+                    </th>
+                    <td>
+                        @Model.Clients.First().FullName
+                    </td>
+                    
+                </tr>
+               
+        </table>
+           
+        <hr />
+
+            <table class="row">
+
+                @foreach (var item in Model.Brokerages)
+                {
+                    if (!(Model.Subscriptions.Where(i => i.BrokerageId == item.ID).Count() > 0))
+                    {
+                        <tr>
+                            <td>
+                                @item.Title
+                            </td>
+                            <td>
+                                 <a asp-controller="Clients" asp-action="Index"> Unregister</a>
+                           </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>
+                                @item.Title
+                            </td>
+                            <td>
+                                 <a asp-controller="Clients" asp-action="Index"> Unregister</a>
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </table>
+    </form>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
